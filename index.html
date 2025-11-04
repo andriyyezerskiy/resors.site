@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resors — Asset Management for Xcode</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: linear-gradient(180deg, #fafafa 0%, #f0f0f0 100%);
+      --text: #1c1c1e;
+      --accent: #007aff;
+      --card-bg: rgba(255, 255, 255, 0.7);
+      --border: rgba(0,0,0,0.08);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: linear-gradient(180deg, #1c1c1e 0%, #2c2c2e 100%);
+        --text: #f5f5f7;
+        --accent: #0a84ff;
+        --card-bg: rgba(30,30,30,0.6);
+        --border: rgba(255,255,255,0.1);
+      }
+    }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 2rem;
+    }
+    .logo {
+      font-size: 3rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      font-size: 1.25rem;
+      opacity: 0.8;
+      margin-bottom: 2rem;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 2rem 2.5rem;
+      max-width: 600px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+      backdrop-filter: blur(20px);
+    }
+    .features {
+      list-style: none;
+      text-align: left;
+      padding: 0;
+      margin: 2rem 0;
+    }
+    .features li {
+      margin-bottom: 0.75rem;
+      padding-left: 1.4rem;
+      position: relative;
+    }
+    .features li::before {
+      content: "•";
+      color: var(--accent);
+      position: absolute;
+      left: 0;
+    }
+    a.button {
+      display: inline-block;
+      text-decoration: none;
+      color: #fff;
+      background: var(--accent);
+      font-weight: 600;
+      padding: 0.8rem 1.6rem;
+      border-radius: 12px;
+      transition: background 0.2s ease;
+    }
+    a.button:hover {
+      background: #005ecb;
+    }
+    footer {
+      margin-top: 3rem;
+      font-size: 0.85rem;
+      opacity: 0.6;
+    }
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">Resors</div>
+    <div class="subtitle">Asset Management for Xcode</div>
+    <ul class="features">
+      <li>Import colors from Xcode <code>.colorset</code> with full accuracy.</li>
+      <li>Group, Edit and Export seamlessly</li>
+      <li>Supports Light, Dark, and High-Contrast variants automatically.</li>
+      <li>Validate color accuracy and preview results instantly.</li>
+      <li>Drag and drop color assets for effortless workflow.</li>
+      <li>Completely offline — your data never leaves your device.</li>
+    </ul>
+    <a class="button" href="https://apps.apple.com/app/resors">View on the App Store</a>
+  </div>
+  <footer>
+    © 2025 <a href="https://resors.com">Resors</a> · 
+    <a href="privacy.html">Privacy Policy</a>
+  </footer>
+</body>
+</html>
