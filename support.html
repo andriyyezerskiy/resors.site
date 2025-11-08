@@ -51,18 +51,19 @@
 <div class="faq">
   <h3>How do I import my Xcode colors?</h3>
   <p>Simply drag one or more <code>.colorset</code> folders into Resors. The app will automatically detect and display their color values for all appearance variants.</p>
+  <p>Alternatively utilize the Import command bar button to launch file picker.</p>
 
   <h3>What does “auto-detect” mean?</h3>
   <p>Resors automatically identifies color variants (Light, Dark, High Contrast) within your <code>.colorset</code> folders and previews them side by side with their exact color values.</p>
 
   <h3>Can I export colors back to Xcode?</h3>
-  <p>Yes. Resors exports to Xcode-ready <code>.colorset</code> folders, creating new ones as needed for each color entry to ensure full compatibility.</p>
+  <p>Yes. Resors exports to Xcode <code>.xcassets</code> folders.</p>
 
   <h3>Does Resors support multiple colorsets at once?</h3>
-  <p>Yes. You can import and manage multiple <code>.colorset</code> folders simultaneously, making it easy to review and verify entire color libraries.</p>
+  <p>Yes. You can import and manage multiple <code>.colorset</code> files simultaneously, making it easy to review and verify entire color libraries.</p>
 
   <h3>What color data does Resors show?</h3>
-  <p>Each appearance variant includes sRGB, HEX, and Float RGB values, so you can precisely verify color consistency across Light, Dark, and High Contrast modes.</p>
+  <p>Each appearance variant includes HEX, RGB and Float RGB values, each color value can also define a color space, so you can precisely verify color consistency across Light, Dark, and High Contrast modes.</p>
 
   <h3>Why do my colors look different in Xcode?</h3>
   <p>Ensure your exported assets use the same color space as your Xcode project (sRGB is recommended). Resors previews colors using accurate color profiles to minimize discrepancies.</p>
@@ -74,7 +75,7 @@
   </p>
 
   <footer>
-    © 2025 Resors · <a href="privacy.html">Privacy Policy</a>
+    © 2025 Andry Yezerskiy · <a href="privacy.html">Privacy Policy</a>
   </footer>
 </body>
 </html>
