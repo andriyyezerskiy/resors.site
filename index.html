@@ -4,127 +4,468 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Resors — Asset Management for Xcode</title>
+  <meta name="description" content="Resors is a native macOS app for importing, verifying, and exporting Xcode color assets with perfect consistency across Light, Dark, and High-Contrast." />
   <style>
     :root {
       color-scheme: light dark;
-      --bg: linear-gradient(180deg, #fafafa 0%, #f0f0f0 100%);
+      --bg: #f4f4f7;
+      --bg-2: #e9e9ef;
       --text: #1c1c1e;
+      --muted: rgba(28,28,30,0.62);
       --accent: #007aff;
-      --card-bg: rgba(255, 255, 255, 0.7);
+      --accent-2: #5e5ce6;
+      --card-bg: rgba(255,255,255,0.65);
+      --card-strong: rgba(255,255,255,0.9);
       --border: rgba(0,0,0,0.08);
+      --shadow: 0 20px 60px rgba(0,0,0,0.08);
     }
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: linear-gradient(180deg, #1c1c1e 0%, #2c2c2e 100%);
+        --bg: #0c0c0f;
+        --bg-2: #15151a;
         --text: #f5f5f7;
+        --muted: rgba(245,245,247,0.62);
         --accent: #0a84ff;
-        --card-bg: rgba(30,30,30,0.6);
+        --accent-2: #7d7aff;
+        --card-bg: rgba(30,30,34,0.55);
+        --card-strong: rgba(40,40,46,0.8);
         --border: rgba(255,255,255,0.1);
+        --shadow: 0 20px 60px rgba(0,0,0,0.5);
       }
     }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Animated ambient background blobs */
+    .ambient {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      background: var(--bg);
+    }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.55;
+      animation: drift 22s ease-in-out infinite alternate;
+    }
+    .blob.b1 { width: 46vw; height: 46vw; top: -10vw; left: -8vw; background: #007aff; }
+    .blob.b2 { width: 40vw; height: 40vw; top: 30vh; right: -12vw; background: #5e5ce6; animation-delay: -6s; }
+    .blob.b3 { width: 38vw; height: 38vw; bottom: -12vw; left: 25vw; background: #34c759; animation-delay: -12s; opacity: 0.35; }
+    @media (prefers-color-scheme: dark) {
+      .blob { opacity: 0.4; }
+      .blob.b3 { opacity: 0.22; }
+    }
+    @keyframes drift {
+      0%   { transform: translate(0,0) scale(1); }
+      50%  { transform: translate(4vw,3vh) scale(1.1); }
+      100% { transform: translate(-3vw,-2vh) scale(0.95); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .blob { animation: none; }
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 92vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
       text-align: center;
-      padding: 2rem;
+      padding: 6rem 0 4rem;
     }
-    .logo {
-      font-size: 3rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.5rem;
+    .app-icon {
+      width: 132px;
+      height: 132px;
+      border-radius: 30px;
+      object-fit: cover;
+      box-shadow: var(--shadow);
+      animation: floatIcon 6s ease-in-out infinite;
     }
-    .subtitle {
-      font-size: 1.25rem;
-      opacity: 0.8;
-      margin-bottom: 2rem;
+    @keyframes floatIcon {
+      0%,100% { transform: translateY(0); }
+      50%     { transform: translateY(-10px); }
     }
-    .card {
+    @media (prefers-reduced-motion: reduce) {
+      .app-icon { animation: none; }
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin: 1.8rem 0 0.4rem;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--accent);
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 2rem 2.5rem;
-      max-width: 600px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+      border-radius: 999px;
       backdrop-filter: blur(20px);
     }
-    .card img {
-      width: 120px;
-      height: 120px;
-      border-radius: 24px;
-      object-fit: cover;
+    .badge .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #34c759;
+      box-shadow: 0 0 0 0 rgba(52,199,89,0.6);
+      animation: pulse 2.2s infinite;
     }
-    .features {
-      list-style: none;
-      text-align: left;
-      padding: 0;
-      margin: 2rem 0;
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(52,199,89,0.55); }
+      70%  { box-shadow: 0 0 0 8px rgba(52,199,89,0); }
+      100% { box-shadow: 0 0 0 0 rgba(52,199,89,0); }
     }
-    .features li {
-      margin-bottom: 0.75rem;
-      padding-left: 1.4rem;
-      position: relative;
+    h1.logo {
+      font-size: clamp(2.8rem, 8vw, 4.6rem);
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      margin: 0.5rem 0 0.4rem;
+      background: linear-gradient(120deg, var(--text), var(--accent) 70%, var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    .features li::before {
-      content: "•";
-      color: var(--accent);
-      position: absolute;
-      left: 0;
+    .subtitle {
+      font-size: clamp(1.1rem, 3vw, 1.45rem);
+      color: var(--muted);
+      max-width: 540px;
+      margin: 0 auto 2rem;
+      line-height: 1.5;
+    }
+    .cta-row {
+      display: flex;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+      justify-content: center;
     }
     a.button {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
       text-decoration: none;
       color: #fff;
-      background: var(--accent);
+      background: linear-gradient(120deg, var(--accent), var(--accent-2));
       font-weight: 600;
-      padding: 0.8rem 1.6rem;
-      border-radius: 12px;
-      transition: background 0.2s ease;
+      font-size: 1rem;
+      padding: 0.9rem 1.7rem;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,122,255,0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     a.button:hover {
-      background: #005ecb;
+      transform: translateY(-2px);
+      box-shadow: 0 16px 40px rgba(0,122,255,0.45);
     }
-    footer {
-      margin-top: 3rem;
-      font-size: 0.85rem;
-      opacity: 0.6;
+    a.button.ghost {
+      color: var(--text);
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      box-shadow: none;
+      backdrop-filter: blur(20px);
     }
-    footer a {
+    a.button.ghost:hover {
+      background: var(--card-strong);
+      box-shadow: var(--shadow);
+    }
+
+    /* Color swatch showcase — themed to the product */
+    .swatches {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin: 3.2rem auto 0;
+      max-width: 560px;
+      width: 100%;
+    }
+    .swatch {
+      border-radius: 18px;
+      padding: 14px;
+      text-align: left;
+      color: #fff;
+      box-shadow: var(--shadow);
+      animation: rise 0.7s cubic-bezier(.2,.7,.3,1) both;
+      position: relative;
+      overflow: hidden;
+    }
+    .swatch:nth-child(1) { animation-delay: 0.05s; }
+    .swatch:nth-child(2) { animation-delay: 0.12s; }
+    .swatch:nth-child(3) { animation-delay: 0.19s; }
+    .swatch:nth-child(4) { animation-delay: 0.26s; }
+    .swatch .hex {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      font-family: "SF Mono", ui-monospace, Menlo, monospace;
+      opacity: 0.95;
+    }
+    .swatch .name {
+      display: block;
+      font-size: 0.66rem;
+      opacity: 0.8;
+      margin-top: 0.2rem;
+    }
+    .swatch .chip {
+      height: 42px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      background: rgba(255,255,255,0.22);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(16px) scale(0.96); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @media (max-width: 560px) {
+      .swatches { grid-template-columns: repeat(2, 1fr); max-width: 360px; }
+    }
+
+    /* Sections */
+    section.block {
+      padding: 4.5rem 0;
+    }
+    .section-head { text-align: center; margin-bottom: 3rem; }
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.78rem;
+      font-weight: 700;
       color: var(--accent);
-      text-decoration: none;
+      margin-bottom: 0.6rem;
     }
+    .section-head h2 {
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    @media (max-width: 800px) { .features { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .features { grid-template-columns: 1fr; } }
+
+    .feature {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 1.6rem;
+      backdrop-filter: blur(20px);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .feature.in { opacity: 1; transform: translateY(0); }
+    .feature:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+      background: var(--card-strong);
+    }
+    .feature .ico {
+      width: 46px; height: 46px;
+      display: grid; place-items: center;
+      border-radius: 13px;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, rgba(0,122,255,0.16), rgba(94,92,230,0.16));
+      color: var(--accent);
+    }
+    .feature h3 {
+      font-size: 1.08rem;
+      font-weight: 700;
+      margin: 0 0 0.4rem;
+    }
+    .feature p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.5;
+    }
+
+    /* Closing CTA */
+    .final {
+      text-align: center;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 3.5rem 2rem;
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow);
+    }
+    .final h2 {
+      font-size: clamp(1.8rem, 5vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.6rem;
+    }
+    .final p { color: var(--muted); margin: 0 0 1.8rem; }
+
+    footer {
+      text-align: center;
+      padding: 3rem 0 4rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
-  <div class="card">
-    <picture>
-      <source srcset="images/resors-icon@dark.png" media="(prefers-color-scheme: dark)">
-      <source srcset="images/resors-icon.png" media="(prefers-color-scheme: light)">
-      <img src="images/resors-icon.png" alt="Resors app icon" />
-    </picture>
-    <div class="logo">Resors</div>
-    <div class="subtitle">Asset Management for Xcode</div>
-    <ul class="features">
-      <li>Import and verify Xcode .colorset files instantly.</li>
-      <li>Export compatible color assets for any project.</li>
-      <li>Guarantee perfect color consistency between preview and export.</li>
-      <li>Group and reuse colors across projects.</li>
-      <li>Handle Light, Dark, and High-Contrast.</li>
-      <li>Streamline your workflow with drag-and-drop support.</li>
-    </ul>
-    <a class="button" href="https://apps.apple.com/app/resors">View on the App Store</a>
+  <div class="ambient" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
   </div>
-  <footer>
-    © 2025 <a href="https://andriyyezerskiy.github.io/resors.site">Resors</a> ·
-    <a href="support.html">Support</a> ·  
-    <a href="privacy.html">Privacy Policy</a>
-  </footer>
+
+  <div class="wrap">
+    <!-- HERO -->
+    <header class="hero">
+      <picture>
+        <source srcset="images/resors-icon@dark.png" media="(prefers-color-scheme: dark)">
+        <source srcset="images/resors-icon.png" media="(prefers-color-scheme: light)">
+        <img class="app-icon" src="images/resors-icon.png" alt="Resors app icon" />
+      </picture>
+
+      <span class="badge"><span class="dot"></span> Native macOS app for Xcode</span>
+      <h1 class="logo">Resors</h1>
+      <p class="subtitle">Import, verify, and export your Xcode color assets — with pixel-perfect consistency across Light, Dark, and High-Contrast.</p>
+
+      <div class="cta-row">
+        <a class="button" href="https://apps.apple.com/app/resors/id6748361802">
+           View on the App Store</a>
+        <a class="button ghost" href="#features">See what it does</a>
+      </div>
+
+      <!-- Themed color-swatch showcase -->
+      <div class="swatches" aria-hidden="true">
+        <div class="swatch" style="background:#007aff">
+          <div class="chip"></div>
+          <span class="hex">#007AFF</span><span class="name">Accent · Light</span>
+        </div>
+        <div class="swatch" style="background:#5e5ce6">
+          <div class="chip"></div>
+          <span class="hex">#5E5CE6</span><span class="name">Accent · Dark</span>
+        </div>
+        <div class="swatch" style="background:#34c759">
+          <div class="chip"></div>
+          <span class="hex">#34C759</span><span class="name">Success</span>
+        </div>
+        <div class="swatch" style="background:#ff9f0a">
+          <div class="chip"></div>
+          <span class="hex">#FF9F0A</span><span class="name">Warning · HC</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- FEATURES -->
+    <section class="block" id="features">
+      <div class="section-head">
+        <div class="eyebrow">Everything in one place</div>
+        <h2>Built for color-perfect workflows</h2>
+      </div>
+
+      <div class="features">
+        <div class="feature">
+          <div class="ico">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15V6a2 2 0 0 0-2-2H9l-4 4"/><path d="M3 9v9a2 2 0 0 0 2 2h14"/><path d="m7 13 3 3 7-7"/></svg>
+          </div>
+          <h3>Instant import & verify</h3>
+          <p>Drag in <code>.colorset</code> folders and see every appearance variant with its exact values, instantly.</p>
+        </div>
+
+        <div class="feature">
+          <div class="ico">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m8 11 4 4 4-4"/><rect x="4" y="17" width="16" height="4" rx="1"/></svg>
+          </div>
+          <h3>Export anywhere</h3>
+          <p>Generate compatible <code>.xcassets</code> color assets ready to drop into any project.</p>
+        </div>
+
+        <div class="feature">
+          <div class="ico">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z"/></svg>
+          </div>
+          <h3>Light, Dark & High-Contrast</h3>
+          <p>Preview all appearance modes side by side and catch mismatches before they ship.</p>
+        </div>
+
+        <div class="feature">
+          <div class="ico">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+          <h3>Guaranteed consistency</h3>
+          <p>HEX, RGB, Float RGB and color-space data, so preview and export always match.</p>
+        </div>
+
+        <div class="feature">
+          <div class="ico">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          </div>
+          <h3>Group & reuse</h3>
+          <p>Organize colors into reusable groups and carry them across every project you build.</p>
+        </div>
+
+        <div class="feature">
+          <div class="ico">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>
+          </div>
+          <h3>Drag-and-drop fast</h3>
+          <p>A native, keyboard-friendly workflow that keeps you moving — no fiddly setup.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="block">
+      <div class="final">
+        <h2>Ship colors with confidence</h2>
+        <p>Stop guessing whether your assets match. Resors makes it certain.</p>
+        <a class="button" href="https://apps.apple.com/app/resors/id6748361802">Get Resors on the App Store</a>
+      </div>
+    </section>
+
+    <footer>
+      © 2025 <a href="https://andriyyezerskiy.github.io/resors.site">Resors</a> ·
+      <a href="support.html">Support</a> ·
+      <a href="privacy.html">Privacy Policy</a>
+    </footer>
+  </div>
+
+  <script>
+    // Reveal feature cards on scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          e.target.style.transitionDelay = (i * 0.06) + 's';
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.feature').forEach(el => {
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease, box-shadow 0.25s ease, background 0.25s ease';
+      io.observe(el);
+    });
+  </script>
 </body>
 </html>

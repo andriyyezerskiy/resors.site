@@ -5,77 +5,210 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Resors — Support</title>
   <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
-      background: linear-gradient(180deg, #fafafa 0%, #f0f0f0 100%);
-      color: #1c1c1e;
-      max-width: 700px;
-      margin: 60px auto;
-      padding: 0 20px;
-      line-height: 1.6;
+    :root {
+      color-scheme: light dark;
+      --bg: #f4f4f7;
+      --text: #1c1c1e;
+      --muted: rgba(28,28,30,0.62);
+      --accent: #007aff;
+      --accent-2: #5e5ce6;
+      --card-bg: rgba(255,255,255,0.65);
+      --card-strong: rgba(255,255,255,0.9);
+      --border: rgba(0,0,0,0.08);
+      --shadow: 0 20px 60px rgba(0,0,0,0.08);
+      --code-bg: rgba(0,0,0,0.06);
     }
     @media (prefers-color-scheme: dark) {
-      body {
-        background: linear-gradient(180deg, #1c1c1e 0%, #2c2c2e 100%);
-        color: #f5f5f7;
+      :root {
+        --bg: #0c0c0f;
+        --text: #f5f5f7;
+        --muted: rgba(245,245,247,0.62);
+        --accent: #0a84ff;
+        --accent-2: #7d7aff;
+        --card-bg: rgba(30,30,34,0.55);
+        --card-strong: rgba(40,40,46,0.8);
+        --border: rgba(255,255,255,0.1);
+        --shadow: 0 20px 60px rgba(0,0,0,0.5);
+        --code-bg: rgba(255,255,255,0.1);
       }
     }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .ambient { position: fixed; inset: 0; z-index: -1; overflow: hidden; background: var(--bg); }
+    .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; animation: drift 22s ease-in-out infinite alternate; }
+    .blob.b1 { width: 46vw; height: 46vw; top: -14vw; left: -10vw; background: #007aff; }
+    .blob.b2 { width: 40vw; height: 40vw; top: 40vh; right: -14vw; background: #5e5ce6; animation-delay: -8s; }
+    @media (prefers-color-scheme: dark) { .blob { opacity: 0.35; } }
+    @keyframes drift {
+      0% { transform: translate(0,0) scale(1); }
+      50% { transform: translate(4vw,3vh) scale(1.1); }
+      100% { transform: translate(-3vw,-2vh) scale(0.95); }
+    }
+    @media (prefers-reduced-motion: reduce) { .blob { animation: none; } }
+
+    .wrap { max-width: 740px; margin: 0 auto; padding: 0 24px; }
+
+    header.page {
+      text-align: center;
+      padding: 5rem 0 2.5rem;
+    }
+    .eyebrow {
+      text-transform: uppercase; letter-spacing: 0.12em;
+      font-size: 0.78rem; font-weight: 700; color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
     h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 0.5em;
+      font-size: clamp(2.2rem, 6vw, 3rem);
+      font-weight: 800; letter-spacing: -0.03em; margin: 0 0 0.5rem;
+      background: linear-gradient(120deg, var(--text), var(--accent) 75%, var(--accent-2));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     }
-    p {
-      margin-bottom: 1em;
+    header.page p { color: var(--muted); font-size: 1.1rem; margin: 0; }
+
+    h2 {
+      font-size: 1.4rem; font-weight: 800; letter-spacing: -0.01em;
+      margin: 2.5rem 0 1.2rem;
     }
-    ul {
-      margin-left: 1.2em;
+
+    .faq { display: grid; gap: 14px; }
+    .faq details {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0 1.4rem;
+      backdrop-filter: blur(20px);
+      transition: box-shadow 0.25s ease, background 0.25s ease;
     }
-    a {
-      color: #007aff;
-      text-decoration: none;
+    .faq details[open] { background: var(--card-strong); box-shadow: var(--shadow); }
+    .faq summary {
+      list-style: none; cursor: pointer;
+      font-weight: 700; font-size: 1.02rem;
+      padding: 1.1rem 0;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
     }
-    footer {
-      margin-top: 3em;
-      font-size: 0.9rem;
-      opacity: 0.7;
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after {
+      content: "+"; color: var(--accent); font-weight: 600; font-size: 1.4rem;
+      transition: transform 0.25s ease; line-height: 1;
     }
+    .faq details[open] summary::after { transform: rotate(45deg); }
+    .faq .body { padding: 0 0 1.2rem; color: var(--muted); }
+    .faq .body p { margin: 0 0 0.7rem; }
+    .faq .body p:last-child { margin-bottom: 0; }
+
+    code {
+      font-family: "SF Mono", ui-monospace, Menlo, monospace;
+      font-size: 0.88em;
+      background: var(--code-bg);
+      padding: 0.12em 0.4em;
+      border-radius: 6px;
+    }
+
+    .contact-card {
+      text-align: center;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      margin: 2.5rem 0;
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow);
+    }
+    .contact-card p { color: var(--muted); margin: 0 0 1.4rem; }
+    a.button {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      text-decoration: none; color: #fff;
+      background: linear-gradient(120deg, var(--accent), var(--accent-2));
+      font-weight: 600; padding: 0.85rem 1.6rem; border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,122,255,0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    a.button:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,122,255,0.45); }
+
+    footer { text-align: center; padding: 2rem 0 4rem; font-size: 0.88rem; color: var(--muted); }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
-  <h1>Resors Support</h1>
-  <p>Need help with Resors? We're here to assist.</p>
+  <div class="ambient" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+  </div>
 
-  <h2>Common Questions</h2>
+  <div class="wrap">
+    <header class="page">
+      <div class="eyebrow">We're here to help</div>
+      <h1>Resors Support</h1>
+      <p>Answers to common questions — and a direct line if you need one.</p>
+    </header>
 
-<div class="faq">
-  <h3>How do I import my Xcode colors?</h3>
-  <p>Simply drag one or more <code>.colorset</code> folders into Resors. The app will automatically detect and display their color values for all appearance variants.</p>
-  <p>Alternatively utilize the Import command bar button to launch file picker.</p>
+    <h2>Common questions</h2>
+    <div class="faq">
+      <details open>
+        <summary>How do I import my Xcode colors?</summary>
+        <div class="body">
+          <p>Simply drag one or more <code>.colorset</code> folders into Resors. The app automatically detects and displays their color values for all appearance variants.</p>
+          <p>Alternatively, use the Import command-bar button to launch the file picker.</p>
+        </div>
+      </details>
 
-  <h3>What does “auto-detect” mean?</h3>
-  <p>Resors automatically identifies color variants (Light, Dark, High Contrast) within your <code>.colorset</code> folders and previews them side by side with their exact color values.</p>
+      <details>
+        <summary>What does “auto-detect” mean?</summary>
+        <div class="body">
+          <p>Resors automatically identifies color variants (Light, Dark, High Contrast) within your <code>.colorset</code> folders and previews them side by side with their exact color values.</p>
+        </div>
+      </details>
 
-  <h3>Can I export colors back to Xcode?</h3>
-  <p>Yes. Resors exports to Xcode <code>.xcassets</code> folders.</p>
+      <details>
+        <summary>Can I export colors back to Xcode?</summary>
+        <div class="body">
+          <p>Yes. Resors exports to Xcode <code>.xcassets</code> folders.</p>
+        </div>
+      </details>
 
-  <h3>Does Resors support multiple colorsets at once?</h3>
-  <p>Yes. You can import and manage multiple <code>.colorset</code> files simultaneously, making it easy to review and verify entire color libraries.</p>
+      <details>
+        <summary>Does Resors support multiple colorsets at once?</summary>
+        <div class="body">
+          <p>Yes. You can import and manage multiple <code>.colorset</code> files simultaneously, making it easy to review and verify entire color libraries.</p>
+        </div>
+      </details>
 
-  <h3>What color data does Resors show?</h3>
-  <p>Each appearance variant includes HEX, RGB and Float RGB values, each color value can also define a color space, so you can precisely verify color consistency across Light, Dark, and High Contrast modes.</p>
+      <details>
+        <summary>What color data does Resors show?</summary>
+        <div class="body">
+          <p>Each appearance variant includes HEX, RGB and Float RGB values, and each color value can define a color space — so you can precisely verify color consistency across Light, Dark, and High Contrast modes.</p>
+        </div>
+      </details>
 
-  <h3>Why do my colors look different in Xcode?</h3>
-  <p>Ensure your exported assets use the same color space as your Xcode project (sRGB is recommended). Resors previews colors using accurate color profiles to minimize discrepancies.</p>
-</div>
+      <details>
+        <summary>Why do my colors look different in Xcode?</summary>
+        <div class="body">
+          <p>Ensure your exported assets use the same color space as your Xcode project (sRGB is recommended). Resors previews colors using accurate color profiles to minimize discrepancies.</p>
+        </div>
+      </details>
+    </div>
 
-  <h2>Contact</h2>
-  <p>If you’re experiencing an issue or have feedback, please email us at:<br>
-    <a href="mailto:contact.andriy@icloud.com">contact.andriy@icloud.com</a>
-  </p>
+    <h2>Still stuck?</h2>
+    <div class="contact-card">
+      <p>If you’re experiencing an issue or have feedback, we’d love to hear from you.</p>
+      <a class="button" href="mailto:contact.andriy@icloud.com">Email Support</a>
+    </div>
 
-  <footer>
-    © 2025 Andry Yezerskiy · <a href="privacy.html">Privacy Policy</a>
-  </footer>
+    <footer>
+      © 2025 <a href="index.html">Resors</a> · <a href="privacy.html">Privacy Policy</a>
+    </footer>
+  </div>
 </body>
 </html>
