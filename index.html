@@ -3,17 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Resors — Asset Management for Xcode</title>
-  <meta name="description" content="Resors is a native macOS app for importing, verifying, and exporting Xcode color assets with perfect consistency across Light, Dark, and High-Contrast." />
+  <title>Resors — Xcode Design Systems Made Easy</title>
+  <meta name="description" content="Resors transforms Xcode asset management into a fast, visual workflow. Create, import, group, and export color assets — with bi-directional sync to your Xcode project." />
   <style>
     :root {
       color-scheme: light dark;
-      --bg: #f4f4f7;
-      --bg-2: #e9e9ef;
+      --bg: #f6f4f8;
       --text: #1c1c1e;
       --muted: rgba(28,28,30,0.62);
       --accent: #007aff;
-      --accent-2: #5e5ce6;
+      --accent-grad: #46b1ff;
       --card-bg: rgba(255,255,255,0.65);
       --card-strong: rgba(255,255,255,0.9);
       --border: rgba(0,0,0,0.08);
@@ -21,14 +20,13 @@
     }
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #0c0c0f;
-        --bg-2: #15151a;
+        --bg: #100a16;
         --text: #f5f5f7;
         --muted: rgba(245,245,247,0.62);
         --accent: #0a84ff;
-        --accent-2: #7d7aff;
-        --card-bg: rgba(30,30,34,0.55);
-        --card-strong: rgba(40,40,46,0.8);
+        --accent-grad: #64d2ff;
+        --card-bg: rgba(34,28,42,0.55);
+        --card-strong: rgba(46,38,56,0.8);
         --border: rgba(255,255,255,0.1);
         --shadow: 0 20px 60px rgba(0,0,0,0.5);
       }
@@ -47,7 +45,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Animated ambient background blobs */
+    /* Animated ambient background blobs — brand purple / crimson / orange */
     .ambient {
       position: fixed;
       inset: 0;
@@ -59,14 +57,14 @@
       position: absolute;
       border-radius: 50%;
       filter: blur(80px);
-      opacity: 0.55;
+      opacity: 0.5;
       animation: drift 22s ease-in-out infinite alternate;
     }
-    .blob.b1 { width: 46vw; height: 46vw; top: -10vw; left: -8vw; background: #007aff; }
-    .blob.b2 { width: 40vw; height: 40vw; top: 30vh; right: -12vw; background: #5e5ce6; animation-delay: -6s; }
-    .blob.b3 { width: 38vw; height: 38vw; bottom: -12vw; left: 25vw; background: #34c759; animation-delay: -12s; opacity: 0.35; }
+    .blob.b1 { width: 46vw; height: 46vw; top: -10vw; left: -8vw; background: #7c3aed; }
+    .blob.b2 { width: 40vw; height: 40vw; top: 30vh; right: -12vw; background: #e11d48; animation-delay: -6s; }
+    .blob.b3 { width: 38vw; height: 38vw; bottom: -12vw; left: 25vw; background: #f97316; animation-delay: -12s; opacity: 0.35; }
     @media (prefers-color-scheme: dark) {
-      .blob { opacity: 0.4; }
+      .blob { opacity: 0.35; }
       .blob.b3 { opacity: 0.22; }
     }
     @keyframes drift {
@@ -79,20 +77,20 @@
     }
 
     .wrap {
-      max-width: 980px;
+      max-width: 1020px;
       margin: 0 auto;
       padding: 0 24px;
     }
 
     /* Hero */
     .hero {
-      min-height: 92vh;
+      min-height: 80vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 6rem 0 4rem;
+      padding: 6rem 0 3rem;
     }
     .app-icon {
       width: 132px;
@@ -139,17 +137,23 @@
       font-weight: 800;
       letter-spacing: -0.035em;
       margin: 0.5rem 0 0.4rem;
-      background: linear-gradient(120deg, var(--text), var(--accent) 70%, var(--accent-2));
+      background: linear-gradient(110deg, var(--accent), var(--accent-grad));
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+    .tagline {
+      font-size: clamp(1.3rem, 4vw, 1.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.8rem;
+    }
     .subtitle {
-      font-size: clamp(1.1rem, 3vw, 1.45rem);
+      font-size: clamp(1rem, 3vw, 1.2rem);
       color: var(--muted);
-      max-width: 540px;
+      max-width: 580px;
       margin: 0 auto 2rem;
-      line-height: 1.5;
+      line-height: 1.55;
     }
     .cta-row {
       display: flex;
@@ -163,16 +167,17 @@
       gap: 0.5rem;
       text-decoration: none;
       color: #fff;
-      background: linear-gradient(120deg, var(--accent), var(--accent-2));
+      background: var(--accent);
       font-weight: 600;
       font-size: 1rem;
       padding: 0.9rem 1.7rem;
       border-radius: 14px;
       box-shadow: 0 10px 30px rgba(0,122,255,0.35);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
     }
     a.button:hover {
       transform: translateY(-2px);
+      filter: brightness(1.08);
       box-shadow: 0 16px 40px rgba(0,122,255,0.45);
     }
     a.button.ghost {
@@ -184,65 +189,13 @@
     }
     a.button.ghost:hover {
       background: var(--card-strong);
+      filter: none;
       box-shadow: var(--shadow);
-    }
-
-    /* Color swatch showcase — themed to the product */
-    .swatches {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin: 3.2rem auto 0;
-      max-width: 560px;
-      width: 100%;
-    }
-    .swatch {
-      border-radius: 18px;
-      padding: 14px;
-      text-align: left;
-      color: #fff;
-      box-shadow: var(--shadow);
-      animation: rise 0.7s cubic-bezier(.2,.7,.3,1) both;
-      position: relative;
-      overflow: hidden;
-    }
-    .swatch:nth-child(1) { animation-delay: 0.05s; }
-    .swatch:nth-child(2) { animation-delay: 0.12s; }
-    .swatch:nth-child(3) { animation-delay: 0.19s; }
-    .swatch:nth-child(4) { animation-delay: 0.26s; }
-    .swatch .hex {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.03em;
-      font-family: "SF Mono", ui-monospace, Menlo, monospace;
-      opacity: 0.95;
-    }
-    .swatch .name {
-      display: block;
-      font-size: 0.66rem;
-      opacity: 0.8;
-      margin-top: 0.2rem;
-    }
-    .swatch .chip {
-      height: 42px;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      background: rgba(255,255,255,0.22);
-      border: 1px solid rgba(255,255,255,0.3);
-    }
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(16px) scale(0.96); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    @media (max-width: 560px) {
-      .swatches { grid-template-columns: repeat(2, 1fr); max-width: 360px; }
     }
 
     /* Sections */
-    section.block {
-      padding: 4.5rem 0;
-    }
-    .section-head { text-align: center; margin-bottom: 3rem; }
+    section.block { padding: 4rem 0; }
+    .section-head { text-align: center; margin-bottom: 2.5rem; }
     .eyebrow {
       text-transform: uppercase;
       letter-spacing: 0.12em;
@@ -255,9 +208,368 @@
       font-size: clamp(1.8rem, 5vw, 2.6rem);
       font-weight: 800;
       letter-spacing: -0.02em;
+      margin: 0 0 0.5rem;
+    }
+    .section-head p { color: var(--muted); margin: 0; }
+
+    /* ============ Interactive demo ============ */
+    /* The demo window follows the website's color scheme via these vars.
+       Dark is the base; light overrides below. */
+    .demo-shell {
+      --ink: #f0f0f3;
+      --ink2: rgba(255,255,255,0.55);
+      --ink3: rgba(255,255,255,0.38);
+      --srf: rgba(255,255,255,0.05);
+      --srf2: rgba(255,255,255,0.09);
+      --srf3: rgba(255,255,255,0.14);
+      --brd: rgba(255,255,255,0.09);
+      --glass-card: rgba(44,42,52,0.55);
+      --card-sh: 0 6px 18px rgba(0,0,0,0.3);
+      --code-c: #9ecbff;
+      --export-bg: rgba(10,8,16,0.45);
+      --seg-on: #3f3d48;
+
+      border-radius: 22px;
+      background: rgba(24,21,32,0.78);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      color: var(--ink);
+    }
+    @media (prefers-color-scheme: light) {
+      .demo-shell {
+        --ink: #1c1c1e;
+        --ink2: rgba(28,28,30,0.6);
+        --ink3: rgba(28,28,30,0.42);
+        --srf: rgba(0,0,0,0.035);
+        --srf2: rgba(0,0,0,0.05);
+        --srf3: rgba(0,0,0,0.09);
+        --brd: rgba(0,0,0,0.08);
+        --glass-card: rgba(255,255,255,0.72);
+        --card-sh: 0 6px 18px rgba(0,0,0,0.1);
+        --code-c: #0a5fd6;
+        --export-bg: rgba(255,255,255,0.5);
+        --seg-on: #ffffff;
+
+        background: rgba(248,246,252,0.8);
+        border: 1px solid rgba(0,0,0,0.1);
+      }
+    }
+    .d-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: var(--srf);
+      border-bottom: 1px solid var(--brd);
+    }
+    .tl { width: 12px; height: 12px; border-radius: 50%; }
+    .tl.r { background: #ff5f57; } .tl.y { background: #febc2e; } .tl.g { background: #28c840; }
+    .d-title { margin-left: 8px; font-size: 0.8rem; color: var(--ink3); font-weight: 500; }
+
+    .d-body { display: flex; min-height: 500px; }
+
+    .d-side {
+      width: 188px;
+      flex-shrink: 0;
+      background: var(--srf);
+      padding: 14px 10px;
+      border-right: 1px solid var(--brd);
+      font-size: 0.82rem;
+    }
+    .grp-label {
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink3);
+      margin: 10px 10px 6px;
+      font-weight: 700;
+    }
+    .grp {
+      padding: 7px 10px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--ink2);
+      white-space: nowrap;
+    }
+    .grp svg { flex-shrink: 0; opacity: 0.7; }
+    .grp.active { background: var(--srf3); color: var(--ink); }
+
+    .d-main { flex: 1; padding: 16px; display: flex; flex-direction: column; min-width: 0; }
+    .d-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .d-toolbar .ttl { font-weight: 700; font-size: 0.92rem; }
+    .d-toolbar .ttl small { display: block; font-weight: 500; font-size: 0.7rem; color: var(--ink3); }
+    .d-actions { display: flex; gap: 8px; align-items: center; }
+    .seg {
+      display: inline-flex;
+      background: var(--srf2);
+      border-radius: 9px;
+      padding: 3px;
+    }
+    .seg button {
+      all: unset;
+      box-sizing: border-box;
+      cursor: pointer;
+      padding: 5px 13px;
+      border-radius: 7px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--ink2);
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .seg button.on { background: var(--seg-on); color: var(--ink); box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+    .d-btn {
+      all: unset;
+      box-sizing: border-box;
+      cursor: pointer;
+      padding: 6px 13px;
+      border-radius: 9px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      background: var(--srf2);
+      color: var(--ink);
+      transition: background 0.15s ease, opacity 0.15s ease, filter 0.15s ease;
+    }
+    .d-btn:hover { background: var(--srf3); }
+    .d-btn[disabled] { opacity: 0.4; cursor: default; }
+    .d-btn.primary { background: var(--accent); color: #fff; }
+    .d-btn.primary:hover { filter: brightness(1.12); background: var(--accent); }
+
+    .d-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+      gap: 12px;
+      align-content: start;
+      flex: 1;
+    }
+    /* Asset card — glassy, edge-to-edge swatch, 140:230 proportions */
+    .d-card {
+      aspect-ratio: 140 / 230;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      background: var(--glass-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      color: var(--ink);
+      border: 2px solid transparent;
+      border-radius: 24px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: var(--card-sh);
+      transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+    /* Entrance animation only on first mount / import, never on reselect */
+    .d-card.fresh { animation: cardIn 0.4s cubic-bezier(.2,.7,.3,1) both; }
+    @keyframes cardIn {
+      from { opacity: 0; transform: scale(0.85); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .d-card:hover { transform: translateY(-2px); }
+    .d-card.sel { border-color: var(--accent); }
+    .d-card .sw {
+      flex: 0 0 62%;
+      width: 100%;
+      transition: background 0.25s ease;
+    }
+    .d-card .meta {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 14px;
+    }
+    .d-card .nm {
+      font-size: 0.78rem;
+      font-weight: 700;
+      word-break: break-word;
+      line-height: 1.25;
+    }
+    .d-card .dots { display: flex; gap: 7px; }
+    .d-card .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      border: 1.5px solid currentColor;
+    }
+    .d-card .dot.full { background: currentColor; }
+    .d-card .dot.half { background: linear-gradient(90deg, currentColor 50%, transparent 50%); }
+
+    .d-export {
+      margin-top: 14px;
+      background: var(--export-bg);
+      border: 1px solid var(--brd);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .ex-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      font-size: 0.72rem;
+      font-family: "SF Mono", ui-monospace, Menlo, monospace;
+      color: var(--ink2);
+      border-bottom: 1px solid var(--brd);
+    }
+    .d-export pre {
       margin: 0;
+      padding: 12px;
+      font-size: 0.68rem;
+      line-height: 1.5;
+      font-family: "SF Mono", ui-monospace, Menlo, monospace;
+      color: var(--code-c);
+      overflow-x: auto;
+      max-height: 220px;
     }
 
+    /* Inspector */
+    .d-insp {
+      width: 256px;
+      flex-shrink: 0;
+      background: var(--srf);
+      border-left: 1px solid var(--brd);
+      padding: 14px;
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .i-tabs {
+      display: flex;
+      background: var(--srf2);
+      border-radius: 9px;
+      padding: 3px;
+      margin-bottom: 12px;
+    }
+    .i-tabs button {
+      all: unset;
+      box-sizing: border-box;
+      flex: 1;
+      display: grid;
+      place-items: center;
+      padding: 5px 0;
+      border-radius: 7px;
+      cursor: pointer;
+      color: var(--ink2);
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .i-tabs button.on { background: var(--accent); color: #fff; }
+
+    .i-tab { display: none; flex: 1; }
+    .i-tab.on { display: block; }
+
+    .i-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--brd);
+      color: var(--ink2);
+      font-size: 0.72rem;
+    }
+    .i-row code, .i-row b {
+      font-family: "SF Mono", ui-monospace, Menlo, monospace;
+      font-weight: 500;
+      font-size: 0.7rem;
+      color: var(--ink);
+      text-align: right;
+    }
+    .i-label {
+      font-size: 0.64rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink3);
+      margin: 12px 0 7px;
+      font-weight: 700;
+    }
+    .i-tab .i-label:first-child { margin-top: 0; }
+    .chip {
+      display: inline-block;
+      background: var(--srf3);
+      border-radius: 7px;
+      padding: 4px 10px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .e-swatch {
+      width: 84px;
+      height: 84px;
+      border-radius: 18px;
+      margin: 12px auto;
+      border: 1px solid var(--brd);
+      transition: background 0.25s ease;
+    }
+    .op-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; }
+    .op-row span { font-size: 0.72rem; color: var(--ink2); }
+    .op-bar { flex: 1; height: 4px; border-radius: 2px; background: var(--srf3); position: relative; }
+    .op-bar::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 2px;
+      background: var(--accent);
+    }
+
+    .pv-text {
+      border-radius: 12px;
+      padding: 10px 12px;
+      transition: background 0.25s ease;
+    }
+    .pv-text .t1 { font-size: 0.62rem; margin: 0 0 2px; transition: color 0.25s ease; }
+    .pv-text .t2 { font-size: 0.86rem; font-weight: 700; margin: 0 0 3px; transition: color 0.25s ease; }
+    .pv-text .t3 { font-size: 0.64rem; font-family: "SF Mono", ui-monospace, Menlo, monospace; margin: 0; transition: color 0.25s ease; }
+    .pv-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+    .pv-btns span {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 7px;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+    .pv-toggle { display: flex; align-items: center; gap: 8px; }
+    .pv-check {
+      width: 16px; height: 16px;
+      border-radius: 5px;
+      display: grid; place-items: center;
+      color: #fff;
+      font-size: 0.62rem;
+      transition: background 0.25s ease;
+    }
+    .pv-shapes { display: flex; align-items: center; gap: 10px; }
+    .pv-shapes i { display: block; transition: background 0.25s ease; }
+    .sh-square  { width: 22px; height: 22px; border-radius: 3px; }
+    .sh-round   { width: 22px; height: 22px; border-radius: 8px; }
+    .sh-circle  { width: 22px; height: 22px; border-radius: 50%; }
+    .sh-capsule { width: 38px; height: 22px; border-radius: 11px; }
+
+    .i-export { width: 100%; margin-top: 12px; text-align: center; }
+    .demo-hint {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 860px) {
+      .d-side { display: none; }
+      .d-body { flex-wrap: wrap; }
+      .d-insp { width: 100%; border-left: none; border-top: 1px solid var(--brd); }
+    }
+
+    /* Features */
     .features {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -287,7 +599,7 @@
       display: grid; place-items: center;
       border-radius: 13px;
       margin-bottom: 1rem;
-      background: linear-gradient(135deg, rgba(0,122,255,0.16), rgba(94,92,230,0.16));
+      background: rgba(0,122,255,0.14);
       color: var(--accent);
     }
     .feature h3 {
@@ -318,7 +630,7 @@
       letter-spacing: -0.02em;
       margin: 0 0 0.6rem;
     }
-    .final p { color: var(--muted); margin: 0 0 1.8rem; }
+    .final p { color: var(--muted); margin: 0 auto 1.8rem; max-width: 520px; }
 
     footer {
       text-align: center;
@@ -346,91 +658,190 @@
         <img class="app-icon" src="images/resors-icon.png" alt="Resors app icon" />
       </picture>
 
-      <span class="badge"><span class="dot"></span> Native macOS app for Xcode</span>
+      <span class="badge"><span class="dot"></span> Native macOS app</span>
       <h1 class="logo">Resors</h1>
-      <p class="subtitle">Import, verify, and export your Xcode color assets — with pixel-perfect consistency across Light, Dark, and High-Contrast.</p>
+      <p class="tagline">Xcode Design Systems Made Easy</p>
+      <p class="subtitle">Build beautiful, consistent assets for your apps — without the usual Xcode friction. Create, import, group, sync, and export, all in one fast visual workflow.</p>
 
       <div class="cta-row">
         <a class="button" href="https://apps.apple.com/app/resors/id6748361802">
            View on the App Store</a>
-        <a class="button ghost" href="#features">See what it does</a>
-      </div>
-
-      <!-- Themed color-swatch showcase -->
-      <div class="swatches" aria-hidden="true">
-        <div class="swatch" style="background:#007aff">
-          <div class="chip"></div>
-          <span class="hex">#007AFF</span><span class="name">Accent · Light</span>
-        </div>
-        <div class="swatch" style="background:#5e5ce6">
-          <div class="chip"></div>
-          <span class="hex">#5E5CE6</span><span class="name">Accent · Dark</span>
-        </div>
-        <div class="swatch" style="background:#34c759">
-          <div class="chip"></div>
-          <span class="hex">#34C759</span><span class="name">Success</span>
-        </div>
-        <div class="swatch" style="background:#ff9f0a">
-          <div class="chip"></div>
-          <span class="hex">#FF9F0A</span><span class="name">Warning · HC</span>
-        </div>
+        <a class="button ghost" href="#demo">Try the live demo</a>
       </div>
     </header>
+
+    <!-- INTERACTIVE DEMO -->
+    <section class="block" id="demo">
+      <div class="section-head">
+        <div class="eyebrow">Live demo — go ahead, click around</div>
+        <h2>This is roughly how Resors feels</h2>
+        <p>Select an asset, flip the appearance, inspect it, and export a real <code>.colorset</code>.</p>
+      </div>
+
+      <div class="demo-shell">
+        <div class="d-titlebar">
+          <span class="tl r"></span><span class="tl y"></span><span class="tl g"></span>
+          <span class="d-title">Resors — interactive demo</span>
+        </div>
+        <div class="d-body">
+          <aside class="d-side" aria-hidden="true">
+            <div class="grp-label">System Groups</div>
+            <div class="grp active"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M7 6V4h10v2"/></svg>All Assets</div>
+            <div class="grp"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>Colors</div>
+            <div class="grp"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 15 5-5 4 4 3-3 6 6"/><circle cx="9" cy="9" r="1.2"/></svg>Images</div>
+            <div class="grp"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 15V9h6"/></svg>Symbols</div>
+            <div class="grp-label">Custom Groups</div>
+            <div class="grp"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12 4 7.5M12 12l8-4.5M12 12v9"/></svg>Aether</div>
+            <div class="grp"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z"/></svg>Atlas</div>
+            <div class="grp"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 15 5-5 4 4 3-3 6 6"/></svg>Flux</div>
+            <div class="grp"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Resors</div>
+          </aside>
+
+          <div class="d-main">
+            <div class="d-toolbar">
+              <div class="ttl">All Assets <small><span id="dCount">8</span> assets</small></div>
+              <div class="d-actions">
+                <div class="seg" role="group" aria-label="Appearance variant">
+                  <button id="segLight" class="on">Light</button>
+                  <button id="segDark">Dark</button>
+                </div>
+                <button class="d-btn" id="btnImport">＋ Import</button>
+              </div>
+            </div>
+            <div class="d-grid" id="dGrid"></div>
+            <div class="d-export" id="dExport" hidden>
+              <div class="ex-head">
+                <span id="exName">Contents.json</span>
+                <button class="d-btn" id="btnCopy">Copy</button>
+              </div>
+              <pre id="exPre"></pre>
+            </div>
+          </div>
+
+          <aside class="d-insp">
+            <div class="i-tabs" role="tablist" aria-label="Inspector">
+              <button id="tabBtnInfo" aria-label="Info">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>
+              </button>
+              <button id="tabBtnEdit" class="on" aria-label="Edit">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 2 4 4-9.5 9.5a3 3 0 0 1-1.5.8l-3.5.7.7-3.5a3 3 0 0 1 .8-1.5z"/><path d="M6 22a4 4 0 0 0 4-4l-4 .5z"/></svg>
+              </button>
+              <button id="tabBtnPrev" aria-label="Preview">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+
+            <!-- Info tab -->
+            <div class="i-tab" id="tabInfo">
+              <div class="i-label">Groups</div>
+              <span class="chip">Resors</span>
+              <div class="i-label">Info</div>
+              <div class="i-row"><span>Variants</span><b>● ◐</b></div>
+              <div class="i-row"><span>Created At</span><b>11/4/2026, 3:12</b></div>
+              <div class="i-row"><span>Last Modified</span><b>11/4/2026, 3:12</b></div>
+            </div>
+
+            <!-- Edit tab -->
+            <div class="i-tab on" id="tabEdit">
+              <div class="i-label">Color Set</div>
+              <div class="i-row"><span>Name</span><b id="eName"></b></div>
+              <div class="i-row"><span>Appearances</span><b>Any, Dark</b></div>
+              <div class="i-row"><span>High Contrast</span><b>Off</b></div>
+              <div class="e-swatch" id="eSwatch"></div>
+              <div class="i-row"><span>Color Space</span><b>sRGB</b></div>
+              <div class="i-row"><span>Input Method</span><b>Hexadecimal</b></div>
+              <div class="i-row"><span>8-Bit Hexadecimal</span><code id="eHex"></code></div>
+              <div class="i-row"><span>RGB</span><code id="eRgb"></code></div>
+              <div class="i-row"><span>Float RGB</span><code id="eFloat"></code></div>
+              <div class="op-row"><span>Opacity</span><div class="op-bar"></div><span>100&nbsp;%</span></div>
+            </div>
+
+            <!-- Preview tab -->
+            <div class="i-tab" id="tabPrev">
+              <div class="i-label">Text</div>
+              <div class="pv-text" id="pvText">
+                <p class="t1">A quick brown fox jumps over the lazy dog</p>
+                <p class="t2">A quick brown fox</p>
+                <p class="t3">A quick brown fox</p>
+              </div>
+              <div class="i-label">Buttons</div>
+              <div class="pv-btns">
+                <span id="pvPlain">Action</span>
+                <span id="pvTint">Action</span>
+                <span id="pvFill">Action</span>
+              </div>
+              <div class="i-label">Toggles</div>
+              <div class="pv-toggle">
+                <span class="pv-check" id="pvCheck">✓</span>
+                <span class="pv-btns"><span id="pvTogChip">Toggle</span></span>
+              </div>
+              <div class="i-label">Shapes</div>
+              <div class="pv-shapes" id="pvShapes">
+                <i class="sh-square"></i><i class="sh-round"></i><i class="sh-circle"></i><i class="sh-capsule"></i>
+              </div>
+            </div>
+
+            <button class="d-btn primary i-export" id="btnExport">Export .colorset</button>
+          </aside>
+        </div>
+      </div>
+      <p class="demo-hint">The real app does this with your actual asset catalogs — plus images, symbols, groups, and two-way Xcode sync.</p>
+    </section>
 
     <!-- FEATURES -->
     <section class="block" id="features">
       <div class="section-head">
-        <div class="eyebrow">Everything in one place</div>
-        <h2>Built for color-perfect workflows</h2>
+        <div class="eyebrow">What makes Resors different</div>
+        <h2>Your tools should keep up with you</h2>
       </div>
 
       <div class="features">
         <div class="feature">
           <div class="ico">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15V6a2 2 0 0 0-2-2H9l-4 4"/><path d="M3 9v9a2 2 0 0 0 2 2h14"/><path d="m7 13 3 3 7-7"/></svg>
-          </div>
-          <h3>Instant import & verify</h3>
-          <p>Drag in <code>.colorset</code> folders and see every appearance variant with its exact values, instantly.</p>
-        </div>
-
-        <div class="feature">
-          <div class="ico">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m8 11 4 4 4-4"/><rect x="4" y="17" width="16" height="4" rx="1"/></svg>
-          </div>
-          <h3>Export anywhere</h3>
-          <p>Generate compatible <code>.xcassets</code> color assets ready to drop into any project.</p>
-        </div>
-
-        <div class="feature">
-          <div class="ico">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z"/></svg>
           </div>
-          <h3>Light, Dark & High-Contrast</h3>
-          <p>Preview all appearance modes side by side and catch mismatches before they ship.</p>
+          <h3>Visual-first design</h3>
+          <p>Create and edit colors in a clean, intuitive interface. See Light, Dark, and High Contrast variants side by side — previewed on real UI components before you ship.</p>
         </div>
 
         <div class="feature">
           <div class="ico">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/></svg>
           </div>
-          <h3>Guaranteed consistency</h3>
-          <p>HEX, RGB, Float RGB and color-space data, so preview and export always match.</p>
+          <h3>Bi-directional Xcode sync</h3>
+          <p>Connect your project, choose a catalog, and changes flow both ways — with flexible conflict-resolution modes when things diverge.</p>
+        </div>
+
+        <div class="feature">
+          <div class="ico">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15V6a2 2 0 0 0-2-2H9l-4 4"/><path d="M3 9v9a2 2 0 0 0 2 2h14"/><path d="m7 13 3 3 7-7"/></svg>
+          </div>
+          <h3>Import without friction</h3>
+          <p>Drop in existing <code>.colorset</code> files and validate them instantly. Catch issues early — from a single color to a full design system.</p>
         </div>
 
         <div class="feature">
           <div class="ico">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
           </div>
-          <h3>Group & reuse</h3>
-          <p>Organize colors into reusable groups and carry them across every project you build.</p>
+          <h3>Build once, reuse everywhere</h3>
+          <p>Organize colors into reusable libraries. Define your palette once and keep it consistent across every app you build.</p>
+        </div>
+
+        <div class="feature">
+          <div class="ico">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m8 11 4 4 4-4"/><rect x="4" y="17" width="16" height="4" rx="1"/></svg>
+          </div>
+          <h3>Export that just works</h3>
+          <p>Generate Xcode-ready <code>.colorset</code> files in seconds. Export individual assets or entire libraries with guaranteed compatibility.</p>
         </div>
 
         <div class="feature">
           <div class="ico">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>
           </div>
-          <h3>Drag-and-drop fast</h3>
-          <p>A native, keyboard-friendly workflow that keeps you moving — no fiddly setup.</p>
+          <h3>Fast, focused workflow</h3>
+          <p>Drag, drop, preview, export. Resors stays out of your way so you can focus on building great apps.</p>
         </div>
       </div>
     </section>
@@ -438,8 +849,8 @@
     <!-- FINAL CTA -->
     <section class="block">
       <div class="final">
-        <h2>Ship colors with confidence</h2>
-        <p>Stop guessing whether your assets match. Resors makes it certain.</p>
+        <h2>Ready to simplify your workflow?</h2>
+        <p>Whether you're shipping your first app or scaling a full design system — get Resors and stop worrying about <code>.colorset</code> files.</p>
         <a class="button" href="https://apps.apple.com/app/resors/id6748361802">Get Resors on the App Store</a>
       </div>
     </section>
@@ -452,7 +863,174 @@
   </div>
 
   <script>
-    // Reveal feature cards on scroll
+    /* ---------- Interactive demo ---------- */
+    const ASSETS = [
+      { name: 'AmberAccent',  light: '#FF9230', dark: '#FFA63D' },
+      { name: 'ChartRed',     light: '#E03131', dark: '#FF453A' },
+      { name: 'ChartBlue',    light: '#2E6BE6', dark: '#3B82F7' },
+      { name: 'ChartYellow',  light: '#D19A00', dark: '#EAB308' },
+      { name: 'Info',         light: '#0B7AB8', dark: '#38BDF8' },
+      { name: 'LimeAccent',   light: '#7CC718', dark: '#A3E635' },
+      { name: 'OrangeAccent', light: '#F76707', dark: '#FB923C' },
+      { name: 'PinkAccent',   light: '#E64984', dark: '#F472B6' },
+    ];
+    const EXTRA = [
+      { name: 'TealAccent',    light: '#12B8A6', dark: '#2DD4BF' },
+      { name: 'Success',       light: '#16A34A', dark: '#22C55E' },
+      { name: 'PrimaryViolet', light: '#8B5CF6', dark: '#A78BFA' },
+      { name: 'PrimaryCyan',   light: '#06B6D4', dark: '#22D3EE' },
+    ];
+
+    /* Variant shown initially follows the website's color scheme */
+    let mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    let selected = ASSETS[0];
+
+    const grid = document.getElementById('dGrid');
+    const exportBox = document.getElementById('dExport');
+
+    function rgbOf(hex) {
+      const n = parseInt(hex.slice(1), 16);
+      return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+    }
+    const f3 = v => (v / 255).toFixed(3);
+
+    const cardEls = new Map();
+
+    function buildCard(a) {
+      const card = document.createElement('div');
+      card.className = 'd-card fresh' + (a === selected ? ' sel' : '');
+      card.innerHTML =
+        '<div class="sw" style="background:' + a[mode] + '"></div>' +
+        '<div class="meta">' +
+          '<div class="nm">' + a.name + '</div>' +
+          '<div class="dots"><span class="dot full"></span><span class="dot half"></span></div>' +
+        '</div>';
+      card.addEventListener('click', () => {
+        if (selected === a) return;
+        selected = a;
+        exportBox.hidden = true;
+        cardEls.forEach((el, asset) => el.classList.toggle('sel', asset === selected));
+        updateInspector();
+      });
+      card.addEventListener('animationend', () => card.classList.remove('fresh'));
+      cardEls.set(a, card);
+      return card;
+    }
+
+    function initGrid() {
+      grid.innerHTML = '';
+      cardEls.clear();
+      ASSETS.forEach(a => grid.appendChild(buildCard(a)));
+      document.getElementById('dCount').textContent = ASSETS.length;
+    }
+
+    /* Repaint swatches for the current variant without rebuilding the grid */
+    function refreshSwatches() {
+      cardEls.forEach((el, a) => { el.querySelector('.sw').style.background = a[mode]; });
+    }
+
+    function updateInspector() {
+      const hex = selected[mode];
+      const [r, g, b] = rgbOf(hex);
+
+      /* Edit tab */
+      document.getElementById('eName').textContent = selected.name;
+      document.getElementById('eSwatch').style.background = hex;
+      document.getElementById('eHex').textContent = hex.toUpperCase();
+      document.getElementById('eRgb').textContent = r + ' ' + g + ' ' + b;
+      document.getElementById('eFloat').textContent = f3(r) + ' ' + f3(g) + ' ' + f3(b);
+
+      /* Preview tab */
+      const text = document.getElementById('pvText');
+      text.style.background = mode === 'light' ? '#ffffff' : '#121117';
+      text.querySelectorAll('p').forEach(p => p.style.color = hex);
+
+      const onFill = mode === 'light' ? '#ffffff' : '#121117';
+      const plain = document.getElementById('pvPlain');
+      plain.style.color = hex;
+      plain.style.background = 'transparent';
+      const tint = document.getElementById('pvTint');
+      tint.style.background = hex + '2b';
+      tint.style.color = hex;
+      const fill = document.getElementById('pvFill');
+      fill.style.background = hex;
+      fill.style.color = onFill;
+
+      document.getElementById('pvCheck').style.background = hex;
+      const togChip = document.getElementById('pvTogChip');
+      togChip.style.background = hex + '2b';
+      togChip.style.color = hex;
+
+      document.querySelectorAll('#pvShapes i').forEach(s => s.style.background = hex);
+    }
+
+    function setMode(m) {
+      mode = m;
+      document.getElementById('segLight').classList.toggle('on', m === 'light');
+      document.getElementById('segDark').classList.toggle('on', m === 'dark');
+      refreshSwatches();
+      updateInspector();
+    }
+    document.getElementById('segLight').onclick = () => setMode('light');
+    document.getElementById('segDark').onclick = () => setMode('dark');
+
+    /* Inspector tabs */
+    const tabs = [
+      ['tabBtnInfo', 'tabInfo'],
+      ['tabBtnEdit', 'tabEdit'],
+      ['tabBtnPrev', 'tabPrev'],
+    ];
+    tabs.forEach(([btnId, tabId]) => {
+      document.getElementById(btnId).onclick = () => {
+        tabs.forEach(([b, t]) => {
+          document.getElementById(b).classList.toggle('on', b === btnId);
+          document.getElementById(t).classList.toggle('on', t === tabId);
+        });
+      };
+    });
+
+    document.getElementById('btnImport').onclick = function () {
+      if (!EXTRA.length) return;
+      const a = EXTRA.shift();
+      ASSETS.push(a);
+      grid.appendChild(buildCard(a));
+      document.getElementById('dCount').textContent = ASSETS.length;
+      if (!EXTRA.length) { this.disabled = true; this.textContent = 'All imported ✓'; }
+    };
+
+    function contentsJSON(a) {
+      const comp = hex => {
+        const [r, g, b] = rgbOf(hex);
+        return { alpha: '1.000', blue: f3(b), green: f3(g), red: f3(r) };
+      };
+      return JSON.stringify({
+        colors: [
+          { color: { 'color-space': 'srgb', components: comp(a.light) }, idiom: 'universal' },
+          { appearances: [{ appearance: 'luminosity', value: 'dark' }],
+            color: { 'color-space': 'srgb', components: comp(a.dark) }, idiom: 'universal' }
+        ],
+        info: { author: 'resors', version: 1 }
+      }, null, 2);
+    }
+
+    document.getElementById('btnExport').onclick = () => {
+      document.getElementById('exName').textContent = selected.name + '.colorset/Contents.json';
+      document.getElementById('exPre').textContent = contentsJSON(selected);
+      exportBox.hidden = false;
+      exportBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    };
+
+    document.getElementById('btnCopy').onclick = function () {
+      navigator.clipboard.writeText(document.getElementById('exPre').textContent).then(() => {
+        this.textContent = 'Copied ✓';
+        setTimeout(() => { this.textContent = 'Copy'; }, 1500);
+      });
+    };
+
+    initGrid();
+    setMode(mode);
+
+    /* ---------- Reveal feature cards on scroll ---------- */
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e, i) => {
         if (e.isIntersecting) {

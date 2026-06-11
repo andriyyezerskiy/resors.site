@@ -7,11 +7,11 @@
   <style>
     :root {
       color-scheme: light dark;
-      --bg: #f4f4f7;
+      --bg: #f6f4f8;
       --text: #1c1c1e;
       --muted: rgba(28,28,30,0.62);
       --accent: #007aff;
-      --accent-2: #5e5ce6;
+      --accent-2: #46b1ff;
       --card-bg: rgba(255,255,255,0.65);
       --card-strong: rgba(255,255,255,0.9);
       --border: rgba(0,0,0,0.08);
@@ -20,13 +20,13 @@
     }
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #0c0c0f;
+        --bg: #100a16;
         --text: #f5f5f7;
         --muted: rgba(245,245,247,0.62);
         --accent: #0a84ff;
-        --accent-2: #7d7aff;
-        --card-bg: rgba(30,30,34,0.55);
-        --card-strong: rgba(40,40,46,0.8);
+        --accent-2: #64d2ff;
+        --card-bg: rgba(34,28,42,0.55);
+        --card-strong: rgba(46,38,56,0.8);
         --border: rgba(255,255,255,0.1);
         --shadow: 0 20px 60px rgba(0,0,0,0.5);
         --code-bg: rgba(255,255,255,0.1);
@@ -47,8 +47,8 @@
 
     .ambient { position: fixed; inset: 0; z-index: -1; overflow: hidden; background: var(--bg); }
     .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; animation: drift 22s ease-in-out infinite alternate; }
-    .blob.b1 { width: 46vw; height: 46vw; top: -14vw; left: -10vw; background: #007aff; }
-    .blob.b2 { width: 40vw; height: 40vw; top: 40vh; right: -14vw; background: #5e5ce6; animation-delay: -8s; }
+    .blob.b1 { width: 46vw; height: 46vw; top: -14vw; left: -10vw; background: #7c3aed; }
+    .blob.b2 { width: 40vw; height: 40vw; top: 40vh; right: -14vw; background: #e11d48; animation-delay: -8s; }
     @media (prefers-color-scheme: dark) { .blob { opacity: 0.35; } }
     @keyframes drift {
       0% { transform: translate(0,0) scale(1); }
@@ -129,12 +129,12 @@
     a.button {
       display: inline-flex; align-items: center; gap: 0.5rem;
       text-decoration: none; color: #fff;
-      background: linear-gradient(120deg, var(--accent), var(--accent-2));
+      background: var(--accent);
       font-weight: 600; padding: 0.85rem 1.6rem; border-radius: 14px;
       box-shadow: 0 10px 30px rgba(0,122,255,0.35);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
     }
-    a.button:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,122,255,0.45); }
+    a.button:hover { transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 16px 40px rgba(0,122,255,0.45); }
 
     footer { text-align: center; padding: 2rem 0 4rem; font-size: 0.88rem; color: var(--muted); }
     footer a { color: var(--accent); text-decoration: none; }
@@ -159,8 +159,16 @@
       <details open>
         <summary>How do I import my Xcode colors?</summary>
         <div class="body">
-          <p>Simply drag one or more <code>.colorset</code> folders into Resors. The app automatically detects and displays their color values for all appearance variants.</p>
+          <p>Simply drag one or more <code>.colorset</code> folders into Resors. The app validates them instantly and displays their color values for all appearance variants — so you catch issues early, whether you're importing a single color or a full design system.</p>
           <p>Alternatively, use the Import command-bar button to launch the file picker.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>How does syncing with Xcode work?</summary>
+        <div class="body">
+          <p>Resors supports bi-directional sync with your Xcode asset catalogs. Connect your project, choose a catalog, and synchronize changes in both directions — edits made in Resors flow to Xcode, and changes in Xcode flow back to Resors.</p>
+          <p>If both sides have changed, flexible conflict-resolution modes let you decide which version wins.</p>
         </div>
       </details>
 
@@ -174,7 +182,14 @@
       <details>
         <summary>Can I export colors back to Xcode?</summary>
         <div class="body">
-          <p>Yes. Resors exports to Xcode <code>.xcassets</code> folders.</p>
+          <p>Yes. Resors generates Xcode-ready <code>.colorset</code> files in seconds — export individual assets or entire libraries with guaranteed compatibility. You can also keep a connected project up to date automatically via sync.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Can I reuse colors across multiple apps?</summary>
+        <div class="body">
+          <p>Yes. Organize colors into reusable groups and libraries — define your palette once and use it across all your apps with consistency.</p>
         </div>
       </details>
 

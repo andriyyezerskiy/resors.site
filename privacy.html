@@ -7,23 +7,23 @@
   <style>
     :root {
       color-scheme: light dark;
-      --bg: #f4f4f7;
+      --bg: #f6f4f8;
       --text: #1c1c1e;
       --muted: rgba(28,28,30,0.62);
       --accent: #007aff;
-      --accent-2: #5e5ce6;
+      --accent-2: #46b1ff;
       --card-bg: rgba(255,255,255,0.65);
       --border: rgba(0,0,0,0.08);
       --shadow: 0 20px 60px rgba(0,0,0,0.08);
     }
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #0c0c0f;
+        --bg: #100a16;
         --text: #f5f5f7;
         --muted: rgba(245,245,247,0.62);
         --accent: #0a84ff;
-        --accent-2: #7d7aff;
-        --card-bg: rgba(30,30,34,0.55);
+        --accent-2: #64d2ff;
+        --card-bg: rgba(34,28,42,0.55);
         --border: rgba(255,255,255,0.1);
         --shadow: 0 20px 60px rgba(0,0,0,0.5);
       }
@@ -42,8 +42,8 @@
 
     .ambient { position: fixed; inset: 0; z-index: -1; overflow: hidden; background: var(--bg); }
     .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; animation: drift 22s ease-in-out infinite alternate; }
-    .blob.b1 { width: 46vw; height: 46vw; top: -14vw; left: -10vw; background: #007aff; }
-    .blob.b2 { width: 40vw; height: 40vw; top: 45vh; right: -14vw; background: #5e5ce6; animation-delay: -8s; }
+    .blob.b1 { width: 46vw; height: 46vw; top: -14vw; left: -10vw; background: #7c3aed; }
+    .blob.b2 { width: 40vw; height: 40vw; top: 45vh; right: -14vw; background: #e11d48; animation-delay: -8s; }
     @media (prefers-color-scheme: dark) { .blob { opacity: 0.35; } }
     @keyframes drift {
       0% { transform: translate(0,0) scale(1); }
