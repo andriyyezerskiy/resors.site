@@ -833,6 +833,17 @@
       font-weight: 700;
       margin: 0 0 0.4rem;
     }
+    .feature h3 .plus-badge {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(120deg, var(--accent), var(--accent-grad));
+      padding: 0.14rem 0.5rem;
+      border-radius: 999px;
+      margin-left: 0.4rem;
+    }
     .feature p {
       margin: 0;
       color: var(--muted);
@@ -866,9 +877,91 @@
     }
     footer a { color: var(--accent); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute; left: -9999px; top: 0; z-index: 100;
+      background: var(--accent); color: #fff; font-weight: 600;
+      padding: 10px 16px; border-radius: 0 0 12px 0;
+    }
+    .skip-link:focus { left: 0; }
+
+    /* Mac App Store badge button */
+    a.button.appstore {
+      background: #000; color: #fff;
+      padding: 0.6rem 1.35rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.28);
+    }
+    a.button.appstore:hover { box-shadow: 0 16px 40px rgba(0,0,0,0.38); filter: none; }
+    @media (prefers-color-scheme: dark) {
+      a.button.appstore { background: #fff; color: #000; }
+    }
+    a.button.appstore .apple { width: 26px; height: 26px; flex-shrink: 0; }
+    .as-txt { display: flex; flex-direction: column; line-height: 1; text-align: left; }
+    .as-txt small { font-size: 0.62rem; font-weight: 500; opacity: 0.85; }
+    .as-txt b { font-size: 1.16rem; font-weight: 600; letter-spacing: -0.01em; margin-top: 3px; }
+
+    /* Hero meta (pricing / requirements) */
+    .hero-meta {
+      margin: 1.4rem 0 0;
+      font-size: 0.86rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .hero-meta .plus {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Screenshot gallery */
+    .shots { display: flex; flex-direction: column; gap: 44px; }
+    .shot {
+      display: grid;
+      grid-template-columns: 1.45fr 1fr;
+      gap: 34px;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .shot.in { opacity: 1; transform: translateY(0); }
+    .shot:nth-child(even) .shot-cap { order: -1; }
+    .shot-img {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      background: var(--card-bg);
+      line-height: 0;
+    }
+    .shot-img img { display: block; width: 100%; height: auto; }
+    .shot-cap h3 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 0.5rem; }
+    .shot-cap p { margin: 0; color: var(--muted); font-size: 0.96rem; line-height: 1.55; }
+    @media (max-width: 800px) {
+      .shot { grid-template-columns: 1fr; gap: 16px; }
+      .shot:nth-child(even) .shot-cap { order: 0; }
+    }
+
+    /* Reset demo button */
+    .reset-btn {
+      all: unset;
+      cursor: pointer;
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 2px 4px;
+      border-radius: 6px;
+    }
+    .reset-btn:hover { text-decoration: underline; }
+    .reset-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   </style>
+  <noscript>
+    <style>
+      .feature, .shot { opacity: 1 !important; transform: none !important; }
+    </style>
+  </noscript>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   <div class="ambient" aria-hidden="true">
     <div class="blob b1"></div>
     <div class="blob b2"></div>
@@ -890,11 +983,19 @@
       <p class="subtitle">Build beautiful, consistent assets for your apps — without the usual Xcode friction. Create, import, group, sync, and export, all in one fast visual workflow.</p>
 
       <div class="cta-row">
-        <a class="button" href="https://apps.apple.com/app/resors/id6748361802">
-           View on the App Store</a>
+        <a class="button appstore" href="https://apps.apple.com/app/resors/id6748361802" aria-label="Download Resors on the Mac App Store">
+          <svg class="apple" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.94c-.02-2.16 1.76-3.2 1.84-3.25-1-1.47-2.56-1.67-3.12-1.69-1.33-.13-2.59.78-3.26.78-.67 0-1.71-.76-2.81-.74-1.45.02-2.79.84-3.53 2.14-1.5 2.61-.38 6.47 1.08 8.59.71 1.04 1.56 2.2 2.67 2.16 1.07-.04 1.48-.69 2.77-.69 1.29 0 1.66.69 2.79.67 1.15-.02 1.88-1.05 2.59-2.09.81-1.2 1.15-2.36 1.17-2.42-.03-.01-2.24-.86-2.26-3.42zM14.9 6.66c.59-.72.99-1.71.88-2.7-.85.03-1.88.57-2.49 1.28-.55.63-1.03 1.64-.9 2.61.95.07 1.92-.48 2.51-1.19z"/></svg>
+          <span class="as-txt"><small>Download on the</small><b>Mac App Store</b></span>
+        </a>
         <a class="button ghost" href="#demo">Try the live demo</a>
       </div>
+      <p class="hero-meta">
+        Free on the Mac App Store · Requires macOS 26 or later<br>
+        <span class="plus">Resors+</span> subscription unlocks export &amp; Xcode sync
+      </p>
     </header>
+
+    <main id="main">
 
     <!-- INTERACTIVE DEMO -->
     <section class="block" id="demo">
@@ -992,7 +1093,7 @@
         </div>
        </div>
       </div>
-      <p class="demo-hint">Drag, drop, done. The real app imports your actual <code>.colorset</code>, <code>.symbolset</code>, and <code>.imageset</code> files — with two-way Xcode sync.</p>
+      <p class="demo-hint">Drag, drop, done. The real app imports your actual <code>.colorset</code>, <code>.symbolset</code>, and <code>.imageset</code> files — with two-way Xcode sync. <button id="resetDemo" class="reset-btn" type="button" hidden>↺ Reset demo</button></p>
     </section>
 
     <!-- FEATURES -->
@@ -1015,7 +1116,7 @@
           <div class="ico">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/></svg>
           </div>
-          <h3>Bi-directional Xcode sync</h3>
+          <h3>Bi-directional Xcode sync <span class="plus-badge">Resors+</span></h3>
           <p>Connect your project, choose a catalog, and changes flow both ways — keeping Resors and your Xcode catalog in step. Flexible conflict-resolution modes are on the way.</p>
         </div>
 
@@ -1039,7 +1140,7 @@
           <div class="ico">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m8 11 4 4 4-4"/><rect x="4" y="17" width="16" height="4" rx="1"/></svg>
           </div>
-          <h3>Export that just works</h3>
+          <h3>Export that just works <span class="plus-badge">Resors+</span></h3>
           <p>Generate Xcode-ready <code>.colorset</code> files in seconds. Export individual assets or entire libraries with guaranteed compatibility.</p>
         </div>
 
@@ -1053,14 +1154,71 @@
       </div>
     </section>
 
+    <!-- SCREENSHOTS -->
+    <section class="block" id="screens">
+      <div class="section-head">
+        <div class="eyebrow">See it in action</div>
+        <h2>The real thing</h2>
+        <p>Actual screenshots from Resors on macOS.</p>
+      </div>
+
+      <div class="shots">
+        <figure class="shot">
+          <div class="shot-img">
+            <img src="images/shots/shot-organize.jpg" alt="Resors showing a grid of color assets with a context menu for exporting, duplicating, and managing groups" loading="lazy" width="1600" height="1000" />
+          </div>
+          <figcaption class="shot-cap">
+            <h3>Organize into groups &amp; libraries</h3>
+            <p>Sort assets into system and custom groups, then export, duplicate, or manage a whole selection at once.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="shot">
+          <div class="shot-img">
+            <img src="images/shots/shot-import.jpg" alt="Resors with a drop overlay reading Release to import 4 ColorSets" loading="lazy" width="1600" height="1000" />
+          </div>
+          <figcaption class="shot-cap">
+            <h3>Drag &amp; drop import</h3>
+            <p>Drop <code>.colorset</code>, <code>.symbolset</code>, and <code>.imageset</code> files straight into a group — validated the moment they land.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="shot">
+          <div class="shot-img">
+            <img src="images/shots/shot-editor.jpg" alt="Resors color editor showing appearances, sRGB color space, hex value, and opacity for a color set" loading="lazy" width="1600" height="1000" />
+          </div>
+          <figcaption class="shot-cap">
+            <h3>Precise color editing</h3>
+            <p>Edit each appearance variant with exact HEX, RGB, and Float values, color space, and opacity — no guesswork.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="shot">
+          <div class="shot-img">
+            <img src="images/shots/shot-preview.jpg" alt="Resors previewing a color applied to real buttons, text, toggles, and shapes" loading="lazy" width="1600" height="1000" />
+          </div>
+          <figcaption class="shot-cap">
+            <h3>Preview on real UI</h3>
+            <p>See every color on live buttons, text, toggles, and shapes before it ever reaches your project.</p>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
     <!-- FINAL CTA -->
     <section class="block">
       <div class="final">
         <h2>Ready to simplify your workflow?</h2>
-        <p>Whether you're shipping your first app or scaling a full design system — get Resors and stop worrying about <code>.colorset</code> files.</p>
-        <a class="button" href="https://apps.apple.com/app/resors/id6748361802">Get Resors on the App Store</a>
+        <p>Whether you're shipping your first app or scaling a full design system — get Resors and stop worrying about <code>.colorset</code> files. Free to download, with <span class="plus">Resors+</span> when you need export and Xcode sync.</p>
+        <div class="cta-row" style="justify-content:center">
+          <a class="button appstore" href="https://apps.apple.com/app/resors/id6748361802" aria-label="Download Resors on the Mac App Store">
+            <svg class="apple" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.94c-.02-2.16 1.76-3.2 1.84-3.25-1-1.47-2.56-1.67-3.12-1.69-1.33-.13-2.59.78-3.26.78-.67 0-1.71-.76-2.81-.74-1.45.02-2.79.84-3.53 2.14-1.5 2.61-.38 6.47 1.08 8.59.71 1.04 1.56 2.2 2.67 2.16 1.07-.04 1.48-.69 2.77-.69 1.29 0 1.66.69 2.79.67 1.15-.02 1.88-1.05 2.59-2.09.81-1.2 1.15-2.36 1.17-2.42-.03-.01-2.24-.86-2.26-3.42zM14.9 6.66c.59-.72.99-1.71.88-2.7-.85.03-1.88.57-2.49 1.28-.55.63-1.03 1.64-.9 2.61.95.07 1.92-.48 2.51-1.19z"/></svg>
+            <span class="as-txt"><small>Download on the</small><b>Mac App Store</b></span>
+          </a>
+        </div>
       </div>
     </section>
+    </main>
 
     <footer>
       © 2025–2026 <a href="https://andriyyezerskiy.github.io/resors.site">Resors</a> ·
@@ -1119,7 +1277,11 @@
         const el = document.createElement('div');
         el.className = 'folder f' + i + (f.imported ? ' taken' : '');
         el.innerHTML = FOLDER_SVG + '<span class="folder-label">' + f.name + '.' + EXT[f.kind] + '</span>';
-        if (!f.imported) attachDrag(el, f);
+        if (!f.imported) {
+          el.setAttribute('role', 'button');
+          el.setAttribute('aria-label', 'Drag ' + f.name + '.' + EXT[f.kind] + ' into Resors to import it');
+          attachDrag(el, f);
+        }
         fzGrid.appendChild(el);
       });
     }
@@ -1153,6 +1315,8 @@
       cardEls.forEach((el, asset) => el.classList.toggle('sel', asset === selected));
     }
 
+    const resetBtn = document.getElementById('resetDemo');
+
     function addAsset(f) {
       if (f.imported) return;
       f.imported = true;
@@ -1160,7 +1324,20 @@
       dropzone.classList.add('hide');
       grid.appendChild(buildCard(f));
       selectAsset(f);
+      if (imported.length === FILES.length) resetBtn.hidden = false;
     }
+
+    function resetDemo() {
+      imported.length = 0;
+      FILES.forEach(f => f.imported = false);
+      cardEls.clear();
+      grid.innerHTML = '';
+      selected = null;
+      dropzone.classList.remove('hide');
+      resetBtn.hidden = true;
+      renderFolder();
+    }
+    resetBtn.addEventListener('click', resetDemo);
 
     /* ----- pointer-based drag (works on mouse + touch) ----- */
     let drag = null;
@@ -1244,7 +1421,7 @@
         }
       });
     }, { threshold: 0.15 });
-    document.querySelectorAll('.feature').forEach(el => {
+    document.querySelectorAll('.feature, .shot').forEach(el => {
       el.style.transition = 'opacity 0.6s ease, transform 0.6s ease, box-shadow 0.25s ease, background 0.25s ease';
       io.observe(el);
     });

@@ -132,6 +132,15 @@
       padding: 0.18rem 0.55rem; border-radius: 999px;
     }
     .check { color: #30d158; font-weight: 700; }
+    .plus-badge {
+      display: inline-block; font-size: 0.72rem; font-weight: 700; color: #fff;
+      background: linear-gradient(120deg, var(--accent), var(--accent-2));
+      padding: 0.18rem 0.55rem; border-radius: 999px;
+    }
+    .legend {
+      display: flex; align-items: center; justify-content: center; gap: 0.55rem; flex-wrap: wrap;
+      text-align: center; color: var(--muted); font-size: 0.86rem; margin: 1.8rem auto 0; max-width: 560px;
+    }
 
     /* request form */
     .request {
@@ -219,7 +228,7 @@
         <div class="card">
           <h3>Xcode-ready export</h3>
           <p>Generate compatible asset catalogs for individual items or entire libraries.</p>
-          <div class="tags"><span class="check">✓ Available</span></div>
+          <div class="tags"><span class="check">✓ Available</span> <span class="plus-badge">Resors+</span></div>
         </div>
         <div class="card">
           <h3>Reusable groups &amp; libraries</h3>
@@ -229,7 +238,7 @@
         <div class="card">
           <h3>Bi-directional Xcode sync</h3>
           <p>Connect a project and keep Resors and your catalog in step, both directions.</p>
-          <div class="tags"><span class="check">✓ Available</span></div>
+          <div class="tags"><span class="check">✓ Available</span> <span class="plus-badge">Resors+</span></div>
         </div>
       </div>
 
@@ -280,6 +289,8 @@
         </div>
       </div>
     </div>
+
+    <p class="legend"><span class="plus-badge">Resors+</span> Unlocked by the optional Resors+ subscription. Everything else is free.</p>
 
     <!-- Feature request -->
     <section class="request">
